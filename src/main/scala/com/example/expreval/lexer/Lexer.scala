@@ -12,6 +12,7 @@ object Lexer {
   private val NAME_START = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
   private val NAME_MID = NAME_START + DIGITS
 
+  @throws[SyntaxErrorException]
   def lex(expression: String): Array[Token] = {
     val tokens = new ArrayBuffer[Token]
     var pos = 0
@@ -39,8 +40,8 @@ object Lexer {
       val c = expression.charAt(pos)
 
       val tokenOpt = c match {
-        case '(' => Some(OPEN_PARAN(pos))
-        case ')' => Some(CLOSE_PARAN(pos))
+        case '(' => Some(OPEN_PAREN(pos))
+        case ')' => Some(CLOSED_PAREN(pos))
         case op if OPERATIONS.contains(op) => Some(OPERATION(pos, op))
         case _ => None
       }

@@ -41,8 +41,8 @@ class LexerSpec extends WordSpec {
 
   private def getStr(tokens: Seq[Token]): String = {
     tokens.map {
-      case OPEN_PARAN(pos) => s"${pos}OP"
-      case CLOSE_PARAN(pos) => s"${pos}CP"
+      case OPEN_PAREN(pos) => s"${pos}OP"
+      case CLOSED_PAREN(pos) => s"${pos}CP"
       case OPERATION(pos, name) => s"$pos/$name/"
       case NAME(pos, name) => s"$pos#$name#"
       case NUMBER(pos, name) => s"$pos%$name%"

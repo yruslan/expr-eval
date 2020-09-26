@@ -5,11 +5,11 @@ sealed trait Token {
 }
 
 object Token {
-  case class OPEN_PARAN (pos: Int) extends Token {
+  case class OPEN_PAREN(pos: Int) extends Token {
     override def toString: String = "("
   }
 
-  case class CLOSE_PARAN (pos: Int) extends Token {
+  case class CLOSED_PAREN(pos: Int) extends Token {
     override def toString: String = ")"
   }
 
