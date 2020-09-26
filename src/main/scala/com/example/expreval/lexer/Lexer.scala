@@ -42,6 +42,7 @@ object Lexer {
       val tokenOpt = c match {
         case '(' => Some(OPEN_PAREN(pos))
         case ')' => Some(CLOSED_PAREN(pos))
+        case ',' => Some(COMMA(pos))
         case op if OPERATIONS.contains(op) => Some(OPERATION(pos, op))
         case _ => None
       }

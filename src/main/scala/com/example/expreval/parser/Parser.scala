@@ -16,6 +16,7 @@ object Parser {
       token match {
         case OPEN_PAREN(pos) => parserSM.onOpenParenthesis(pos)
         case CLOSED_PAREN(pos) => parserSM.onClosedParenthesis(pos)
+        case COMMA(pos) => parserSM.onComma(pos)
         case OPERATION(pos, op) => parserSM.onOperaqtion(pos, op)
         case NAME(pos, name) => parserSM.onName(pos, name)
         case NUMBER(pos, name) => parserSM.onName(pos, name)

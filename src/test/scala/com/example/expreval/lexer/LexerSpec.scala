@@ -31,6 +31,12 @@ class LexerSpec extends WordSpec {
       assert(getStr(lex("factorial(10)/30-(pi*2 - 1)")) == "0#factorial#,9OP,10%10%,12CP,13///,14%30%,16/-/,17OP,18#pi#,20/*/,21%2%,23/-/,25%1%,26CP")
     }
 
+    "parse function calls" in {
+      assert(getStr(lex("a(1)")) == "0#a#,1OP,2%1%,3CP")
+      assert(getStr(lex("b(2,3)")) == "0#b#,1OP,2%2%,3CM,4%3%,5CP")
+      assert(getStr(lex("sum(x*x,y,y)+cos(pi*2+1)")) == "0#sum#,3OP,4#x#,5/*/,6#x#,7CM,8#y#,9CM,10#y#,11CP,12/+/,13#cos#,16OP,17#pi#,19/*/,20%2%,21/+/,22%1%,23CP")
+    }
+
     "thrown an exception on unknown token" in {
       val ex = intercept[SyntaxErrorException] {
         lex("100 + 200.")
@@ -43,6 +49,7 @@ class LexerSpec extends WordSpec {
     tokens.map {
       case OPEN_PAREN(pos) => s"${pos}OP"
       case CLOSED_PAREN(pos) => s"${pos}CP"
+      case COMMA(pos) => s"${pos}CM"
       case OPERATION(pos, name) => s"$pos/$name/"
       case NAME(pos, name) => s"$pos#$name#"
       case NUMBER(pos, name) => s"$pos%$name%"

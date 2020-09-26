@@ -13,6 +13,10 @@ object Token {
     override def toString: String = ")"
   }
 
+  case class COMMA (pos: Int) extends Token {
+    override def toString: String = ","
+  }
+
   case class OPERATION (pos: Int, name: Char) extends Token {
     override def toString: String = s"$name"
   }
