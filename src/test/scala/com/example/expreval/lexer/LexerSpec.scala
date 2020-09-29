@@ -31,6 +31,19 @@ class LexerSpec extends WordSpec {
       assert(getStr(lex("factorial(10)/30-(pi*2 - 1)")) == "0#factorial#,9OP,10%10%,12CP,13///,14%30%,16/-/,17OP,18#pi#,20/*/,21%2%,23/-/,25%1%,26CP")
     }
 
+    "parse a negative number" in {
+      assert(getStr(lex("-100")) == "0/-/,1%100%")
+      assert(getStr(lex("(-100)")) == "0OP,1/-/,2%100%,5CP")
+      assert(getStr(lex("(5+-100)")) == "0OP,1%5%,2/+/,3/-/,4%100%,7CP")
+    }
+
+    "parse a multichar operations" in {
+      assert(getStr(lex("3>=5")) == "0%3%,1/>=/,3%5%")
+      assert(getStr(lex("7+8!=-12")) == "0%7%,1/+/,2%8%,3/!=/,5/-/,6%12%")
+      assert(getStr(lex("5+5==6+4")) == "0%5%,1/+/,2%5%,3/==/,5%6%,6/+/,7%4%")
+      assert(getStr(lex("var1 > 1 && var2 < -10")) == "0#var1#,5/>/,7%1%,9/&&/,12#var2#,17/</,19/-/,20%10%")
+    }
+
     "parse function calls" in {
       assert(getStr(lex("a(1)")) == "0#a#,1OP,2%1%,3CP")
       assert(getStr(lex("b(2,3)")) == "0#b#,1OP,2%2%,3CM,4%3%,5CP")

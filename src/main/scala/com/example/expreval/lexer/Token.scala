@@ -17,7 +17,7 @@ object Token {
     override def toString: String = ","
   }
 
-  case class OPERATION (pos: Int, name: Char) extends Token {
+  case class OPERATION (pos: Int, name: String) extends Token {
     override def toString: String = s"$name"
   }
 

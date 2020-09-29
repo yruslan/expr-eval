@@ -16,7 +16,7 @@ class ParserSM(expressionBuilder: ExpressionBuilderBigDecimal) {
     handleEvent(pos, COMMA)
   }
 
-  def onOperaqtion(pos: Int, operation: Char): Unit = {
+  def onOperaqtion(pos: Int, operation: String): Unit = {
     this.operation = operation
     handleEvent(pos, OPERATION)
   }
@@ -48,7 +48,7 @@ class ParserSM(expressionBuilder: ExpressionBuilderBigDecimal) {
 
   private var state = STATE_EXPRESSION
   private var position = 0
-  private var operation = ' '
+  private var operation = ""
 
   case class Transition(state: Int, event: Int, nextState: Int, action: Token => Unit)
 

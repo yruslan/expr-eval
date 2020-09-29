@@ -7,7 +7,10 @@ import scala.collection.mutable.ArrayBuffer
 
 object Lexer {
   private val WHITESPACE = " \t\n\r"
-  private val OPERATIONS = "+-*/"
+
+  // Multichar operations should be listed first so they are first to be considered
+  private val OPERATIONS = Array("<=", ">=", "!=", "==", "&&", "||", "!", "+", "-", "*" , "/", "^", "<", ">")
+
   private val DIGITS = "01234567890"
   private val NAME_START = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
   private val NAME_MID = NAME_START + DIGITS
@@ -43,7 +46,6 @@ object Lexer {
         case '(' => Some(OPEN_PAREN(pos))
         case ')' => Some(CLOSED_PAREN(pos))
         case ',' => Some(COMMA(pos))
-        case op if OPERATIONS.contains(op) => Some(OPERATION(pos, op))
         case _ => None
       }
 
@@ -92,8 +94,23 @@ object Lexer {
       }
     }
 
+    def findOperations(): Boolean = {
+      val s = expression.substring(pos)
+
+      val optOp = OPERATIONS.find(op => s.startsWith(op))
+
+      optOp match {
+        case Some(op) =>
+          tokens += OPERATION(pos, op)
+          pos += op.length
+          true
+        case None =>
+          false
+      }
+    }
+
     while (pos < expression.length) {
-      val ok = findSingleCharToken() || findWhiteSpace() || findNumber() || findName()
+      val ok = findSingleCharToken() || findWhiteSpace() || findOperations() || findNumber() || findName()
 
       if (!ok) {
         throw new SyntaxErrorException(pos, s"Unknown token '${expression.charAt(pos)}'")

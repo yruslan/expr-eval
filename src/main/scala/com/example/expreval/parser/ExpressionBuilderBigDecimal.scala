@@ -12,7 +12,7 @@ class ExpressionBuilderBigDecimal(expr: String) {
 
   private val operations = new ListBuffer[Expression]
 
-  private var operation = ' '
+  private var operation = ""
   private var name = ""
   private var num = BigDecimal(0)
   private var arg: Expression = _
@@ -28,7 +28,7 @@ class ExpressionBuilderBigDecimal(expr: String) {
     arguments.head
   }
 
-  def setOperation(c: Char): Unit = operation = c
+  def setOperation(op: String): Unit = operation = op
 
   def setName(pos: Int, name: String): Unit = {
     this.pos = pos
